@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Notes.Domain;
 
-namespace Notes.Persistence;
+namespace Notes.Application.Interfaces;
 
 public interface INotesDbContext
 {
