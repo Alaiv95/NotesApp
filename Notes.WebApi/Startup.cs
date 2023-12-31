@@ -52,9 +52,6 @@ public class Startup
         app.UseHttpsRedirection();
         app.UseCors("AllowAll");
 
-        app.UseEndpoints(endpoints =>
-        {
-            endpoints.MapControllers();
-        });
+        app.UseEndpoints(endpoints => endpoints.MapControllers());
     }
 }
