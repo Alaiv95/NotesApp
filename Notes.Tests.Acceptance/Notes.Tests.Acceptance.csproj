@@ -20,7 +20,6 @@
     <Folder Include="Drivers\" />
     <Folder Include="Features\" />
     <Folder Include="Support\" />
-    <Folder Include="Новая папка\" />
   </ItemGroup>
 
   <ItemGroup>

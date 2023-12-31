@@ -103,9 +103,6 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 7
- testRunner.Given("Already created note and its id with Url \"/note\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line hidden
-#line 8
  testRunner.Given("The URL to update the note is \"/note\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
                 TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
@@ -114,10 +111,10 @@ this.ScenarioInitialize(scenarioInfo);
                 table4.AddRow(new string[] {
                             "newTitle",
                             "newDetails"});
-#line 9
+#line 8
  testRunner.When("I send request to this URL with existing note id and following values", ((string)(null)), table4, "When ");
 #line hidden
-#line 12
+#line 11
  testRunner.Then("Updated note should contains new values", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }

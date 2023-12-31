@@ -8,35 +8,18 @@ using RestSharp;
 namespace Notes.Tests.Acceptance.StepDefinitions;
 
 [Binding]
-public class DeleteNoteStepDefinitions
+public class DeleteNoteStepDefinitions : WithPreparedNoteSteps
 {
     private string _url;
-    private Guid _noteId;
     private int _statusCode;
-    private IRestResponseFactory _restResponseFactory;
-    private IRestRequestFactory _restRequestFactory;
-    
-    public DeleteNoteStepDefinitions(IRestRequestFactory requestFactory, IRestResponseFactory restResponse)
-    {
-        _restResponseFactory = restResponse;
-        _restRequestFactory = requestFactory;
-    }
 
-    [Given(@"Created note and its id with Url ""([^""]*)""")]
-    public void GivenCreatedNoteAndItsIdWithUrl(string createNoteurl)
-    {
-        var noteDto = new CreateNoteDto { Details = "test1", Title = "test2" };
-
-        RestRequest request = _restRequestFactory.createPostRequest(createNoteurl, noteDto);
-        CreationResponseVm response = _restResponseFactory.GetDeserializedResponse<CreationResponseVm>(request, new Uri(AppSettings.BaseApiUrl));
-
-        _noteId = response.Id;
-    }
+    public DeleteNoteStepDefinitions(IRestRequestFactory requestFactory, IRestResponseFactory responseFactory)
+        : base(requestFactory, responseFactory) { }
 
     [Given(@"The URL to delete the note is ""([^""]*)""")]
     public void GivenTheURLToDeleteTheNoteIs(string url)
     {
-        _url = url.Replace("{id}", _noteId.ToString());
+        _url = url.Replace("{id}", _preparedNoteId.ToString());
     }
 
     [When(@"I send request to this URL with created note id")]
