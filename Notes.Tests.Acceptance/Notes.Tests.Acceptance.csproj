@@ -18,7 +18,22 @@
 
   <ItemGroup>
     <Folder Include="Drivers\" />
+    <Folder Include="Features\" />
     <Folder Include="Support\" />
+    <Folder Include="Новая папка\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Notes.Application\Notes.Application.csproj" />
+    <ProjectReference Include="..\Notes.Domain\Notes.Domain.csproj" />
+    <ProjectReference Include="..\Notes.Persistence\Notes.Persistence.csproj" />
+    <ProjectReference Include="..\Notes.WebApi\Notes.WebApi.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.test.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

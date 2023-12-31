@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Notes.Application.Common.Exceptions;
 using Notes.Application.Interfaces;
 using Notes.Domain;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Notes.Application.Notes.Queries.GetNoteDetails;
 

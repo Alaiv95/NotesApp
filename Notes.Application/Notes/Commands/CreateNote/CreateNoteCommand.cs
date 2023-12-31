@@ -1,8 +1,9 @@
 ﻿using MediatR;
+using Notes.WebApi.Models;
 
 namespace Notes.Application.Notes.Commands.CreateNote;
 
-public class CreateNoteCommand : IRequest<Guid>
+public class CreateNoteCommand : IRequest<CreationResponseVm>
 {
     public Guid UserId { get; set; }
     public string Title { get; set; }

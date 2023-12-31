@@ -17,7 +17,7 @@ namespace Notes.Tests.Acceptance
         }
 
         [BeforeTestRun]
-        public void BeforeTestRun()
+        public static void BeforeTestRun()
         {
             _restRequestFactory = new RestRequestFactory();
             _restResponseFactory = new RestResponseFactory(new RestClientFactory());

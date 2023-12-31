@@ -44,12 +44,12 @@ public class NoteController : BaseController
     }
 
     [HttpPost]
-    public async Task<ActionResult<Guid>> Create([FromBody] CreateNoteDto createNoteDto)
+    public async Task<ActionResult<CreationResponseVm>> Create([FromBody] CreateNoteDto createNoteDto)
     {
         var command = _mapper.Map<CreateNoteCommand>(createNoteDto);
         command.UserId = UserId;
-        var noteId = await Mediator.Send(command);
-        return Ok(noteId);
+        var noteData = await Mediator.Send(command);
+        return Ok(noteData);
     }
 
     [HttpPut]

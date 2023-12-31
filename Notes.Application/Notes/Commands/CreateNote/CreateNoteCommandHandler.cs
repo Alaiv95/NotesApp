@@ -1,16 +1,17 @@
 ﻿using MediatR;
 using Notes.Application.Interfaces;
 using Notes.Domain;
+using Notes.WebApi.Models;
 
 namespace Notes.Application.Notes.Commands.CreateNote;
 
-public class CreateNoteCommandHandler : IRequestHandler<CreateNoteCommand, Guid>
+public class CreateNoteCommandHandler : IRequestHandler<CreateNoteCommand, CreationResponseVm>
 {
     private readonly INotesDbContext _dbContext;
 
     public CreateNoteCommandHandler(INotesDbContext dbContext) => _dbContext = dbContext;
 
-    public async Task<Guid> Handle(CreateNoteCommand command, CancellationToken cancellationToken)
+    public async Task<CreationResponseVm> Handle(CreateNoteCommand command, CancellationToken cancellationToken)
     {
         var note = new Note
         {
@@ -25,6 +26,6 @@ public class CreateNoteCommandHandler : IRequestHandler<CreateNoteCommand, Guid>
         await _dbContext.Notes.AddAsync(note, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        return note.Id;
+        return new CreationResponseVm { Id = note.Id };
     }
 }
