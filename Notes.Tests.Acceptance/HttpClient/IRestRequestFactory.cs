@@ -6,4 +6,6 @@ public interface IRestRequestFactory
 {
     public RestRequest createGetRequest(string url, IDictionary<string, object>? queryParams = null, string? authToken = null);
     public RestRequest createPostRequest(string url, object? requestData = null, IDictionary<string, object>? queryParams = null, string? authToken = null);
+    public RestRequest createPutRequest(string url, object? requestData = null, IDictionary<string, object>? queryParams = null, string? authToken = null);
+    public RestRequest createDeleteRequest(string url, IDictionary<string, object>? queryParams = null, string? authToken = null);
 }

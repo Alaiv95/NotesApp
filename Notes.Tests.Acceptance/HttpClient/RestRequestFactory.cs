@@ -1,10 +1,16 @@
-﻿using Microsoft.VisualStudio.TestPlatform.Common;
-using RestSharp;
+﻿using RestSharp;
 
 namespace Notes.Tests.Acceptance.Http;
 
 public class RestRequestFactory : IRestRequestFactory
 {
+    public RestRequest createDeleteRequest(string url, IDictionary<string, object>? queryParams = null, string? authToken = null)
+    {
+        RestRequest request = new RestRequest(url) { Method = Method.Delete };
+
+        return RequestWithParameters(request, authToken, queryParams);
+    }
+
     public RestRequest createGetRequest(string url, IDictionary<string, object>? queryParams = null, string? authToken = null)
     {
         RestRequest request = new RestRequest(url) { Method = Method.Get };
@@ -17,6 +23,19 @@ public class RestRequestFactory : IRestRequestFactory
         RestRequest request = new RestRequest(url) 
         { 
             Method = Method.Post,
+            RequestFormat = DataFormat.Json
+        };
+
+        request = requestData == null ? request : request.AddBody(requestData);
+
+        return RequestWithParameters(request, authToken, queryParams);
+    }
+
+    public RestRequest createPutRequest(string url, object? requestData = null, IDictionary<string, object>? queryParams = null, string? authToken = null)
+    {
+        RestRequest request = new RestRequest(url)
+        {
+            Method = Method.Put,
             RequestFormat = DataFormat.Json
         };
 
