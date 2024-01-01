@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,6 +39,18 @@ public class Startup
                 policy.AllowAnyOrigin();
             });
         });
+
+        services.AddAuthentication(config =>
+        {
+            config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+            .AddJwtBearer("Bearer", options =>
+            {
+                options.Authority = "https://localhost:7214/";
+                options.Audience = "NotesWebApi";
+                options.RequireHttpsMetadata = false;
+            });
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -51,6 +64,8 @@ public class Startup
         app.UseRouting();
         app.UseHttpsRedirection();
         app.UseCors("AllowAll");
+        app.UseAuthentication();
+        app.UseAuthorization();
 
         app.UseEndpoints(endpoints => endpoints.MapControllers());
     }
