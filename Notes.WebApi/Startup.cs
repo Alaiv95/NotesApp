@@ -1,14 +1,17 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Notes.Application;
 using Notes.Application.Common.Mappings;
 using Notes.Application.Interfaces;
 using Notes.Persistence;
 using Notes.WebApi.Middlewares;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.IO;
 using System.Reflection;
@@ -54,15 +57,15 @@ public class Startup
                 options.RequireHttpsMetadata = false;
             });
 
-        services.AddSwaggerGen(config =>
-        {
-            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-            config.IncludeXmlComments(xmlPath);
-        });
+        services.AddVersionedApiExplorer(options =>options.GroupNameFormat = "'v'VVV");
+        services.AddTransient<IConfigureOptions<SwaggerGenOptions>,
+            ConfigureSwaggerOptions>();
+        services.AddSwaggerGen();
+
+        services.AddApiVersioning();
     }
 
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider)
     {
         if (env.IsDevelopment())
         {
@@ -71,8 +74,12 @@ public class Startup
         app.UseSwagger();
         app.UseSwaggerUI(config =>
         {
-            config.RoutePrefix = string.Empty;
-            config.SwaggerEndpoint("swagger/v1/swagger.json", "Notes API");
+            foreach(var desc in provider.ApiVersionDescriptions)
+            {
+                config.SwaggerEndpoint($"/swagger/{desc.GroupName}/swagger.json",
+                    desc.GroupName.ToUpperInvariant());
+                config.RoutePrefix = string.Empty;
+            }
         });
         app.UseCustomExceptionHandler();
         app.UseRouting();
@@ -80,7 +87,7 @@ public class Startup
         app.UseCors("AllowAll");
         app.UseAuthentication();
         app.UseAuthorization();
-
+        app.UseApiVersioning();
         app.UseEndpoints(endpoints => endpoints.MapControllers());
     }
 }
