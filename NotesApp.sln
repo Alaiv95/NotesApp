@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notes.WebApi", "Notes.WebAp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notes.Tests.Acceptance", "Notes.Tests.Acceptance\Notes.Tests.Acceptance.csproj", "{17215259-EFDF-48FF-B545-988BBB818835}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notes.Tests.Unit", "Notes.Tests.Unit\Notes.Tests.Unit.csproj", "{1209FCE5-C341-4B64-AD34-ED815BC2FD4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notes.Tests.Unit", "Notes.Tests.Unit\Notes.Tests.Unit.csproj", "{1209FCE5-C341-4B64-AD34-ED815BC2FD4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

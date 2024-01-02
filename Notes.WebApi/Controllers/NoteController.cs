@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Notes.Application.Notes.Commands.CreateNote;
 using Notes.Application.Notes.Commands.DeleteNote;
@@ -12,15 +13,16 @@ using System;
 using System.Threading.Tasks;
 
 namespace Notes.WebApi.Controllers;
-[ApiVersion("1.0")]
-[ApiVersion("2.0")]
+
+[ApiVersionNeutral]
 [Produces("application/json")] 
-[Route("api/{version:apiVersion}/[controller]")]
+[Route("api/[controller]")]
 public class NoteController : BaseController
 {
     private IMapper _mapper;
 
-    public NoteController(IMapper mapper) => _mapper = mapper;
+    public NoteController(IMapper mapper, SignInManager<IdentityUser> signInManager,
+        UserManager<IdentityUser> userManager) : base(userManager, signInManager) => _mapper = mapper;
 
     /// <summary>
     /// Get the list of notes
@@ -38,9 +40,11 @@ public class NoteController : BaseController
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<NoteListVm>> GetAll()
     {
+        Guid userId = await GetUserId();
+
         var query = new GetNoteListQuery()
         {
-            UserId = UserId
+            UserId = userId
         };
 
         var vm = await Mediator.Send(query);
@@ -66,10 +70,12 @@ public class NoteController : BaseController
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<NoteDetailsVm>> Get(Guid id)
     {
+        Guid userId = await GetUserId();
+
         var query = new GetNoteDetailsQuery()
         {
             Id = id,
-            UserId = UserId
+            UserId = userId
         };
 
         var vm = await Mediator.Send(query);
@@ -94,8 +100,10 @@ public class NoteController : BaseController
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<CreationResponseVm>> Create([FromBody] CreateNoteDto createNoteDto)
     {
+        Guid userId = await GetUserId();
+
         var command = _mapper.Map<CreateNoteCommand>(createNoteDto);
-        command.UserId = UserId;
+        command.UserId = userId;
         var noteData = await Mediator.Send(command);
         return Ok(noteData);
     }
@@ -119,8 +127,10 @@ public class NoteController : BaseController
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Update([FromBody] UpdateNoteDto updateNoteDto)
     {
+        Guid userId = await GetUserId();
+
         var command = _mapper.Map<UpdateNoteCommand>(updateNoteDto);
-        command.UserId = UserId;
+        command.UserId = userId;
         await Mediator.Send(command);
         return NoContent();
     }
@@ -143,10 +153,12 @@ public class NoteController : BaseController
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(Guid id)
     {
+        Guid userId = await GetUserId();
+
         var command = new DeleteNoteCommand
         {
             Id = id,
-            UserId = UserId
+            UserId = userId
         };
 
         await Mediator.Send(command);

@@ -6,15 +6,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Notes.Application;
 using Notes.Application.Common.Mappings;
 using Notes.Application.Interfaces;
 using Notes.Persistence;
 using Notes.WebApi.Middlewares;
+using Notes.WebApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using System;
-using System.IO;
 using System.Reflection;
+using System.Text;
 
 namespace Notes.WebApi;
 
@@ -32,6 +33,7 @@ public class Startup
             config.AddProfile(new AssemblyMappingProfile(typeof(INotesDbContext).Assembly));
         });
 
+        services.AddHttpContextAccessor();
         services.AddApplication();
         services.AddPersistence(Configuration);
         services.AddControllers();
@@ -45,16 +47,31 @@ public class Startup
             });
         });
 
+        services.Configure<JWTSettings>(Configuration.GetSection("JWTSettings"));
+
+        var secretKey = Configuration.GetSection("JWTSettings:SecretKey").Value;
+        var issuer = Configuration.GetSection("JWTSettings:Issuer").Value;
+        var audience = Configuration.GetSection("JWTSettings:Audience").Value;
+        var signinKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+
         services.AddAuthentication(config =>
         {
             config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            config.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
         })
             .AddJwtBearer("Bearer", options =>
             {
-                options.Authority = "https://localhost:7214/";
-                options.Audience = "NotesWebApi";
-                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = issuer,
+                    ValidateAudience = true,
+                    ValidAudience = audience,
+                    ValidateLifetime = true,
+                    IssuerSigningKey = signinKey,
+                    ValidateIssuerSigningKey = true
+                };
             });
 
         services.AddVersionedApiExplorer(options =>options.GroupNameFormat = "'v'VVV");

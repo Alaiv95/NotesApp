@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http;
 using Notes.Application.Common.Exceptions;
 using System;
 using System.Net;
-using System.Reflection.Metadata;
 using System.Text.Json;
 using System.Threading.Tasks;
 
