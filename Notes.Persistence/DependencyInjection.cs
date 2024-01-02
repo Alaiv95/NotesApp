@@ -11,13 +11,13 @@ public static class DependencyInjection
     public static IServiceCollection AddPersistence(this IServiceCollection 
         services, IConfiguration configuration)
     {
-        var connectionString1 = configuration["DbConnection"];
-        var connectionString2 = configuration["AuthDbConnection"];
+        var mainDbConnection = configuration["DbConnection"];
+        var authDbConnection = configuration["AuthDbConnection"];
 
-        services.AddDbContext<NotesDbContext>(options => options.UseSqlite(connectionString1));
+        services.AddDbContext<NotesDbContext>(options => options.UseSqlite(mainDbConnection));
         services.AddScoped<INotesDbContext>(provider => provider.GetService<NotesDbContext>());
 
-        services.AddDbContext<UserDbContext>(optionsAction => optionsAction.UseSqlite(connectionString2));
+        services.AddDbContext<UserDbContext>(optionsAction => optionsAction.UseSqlite(authDbConnection));
         services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<UserDbContext>();
 
         return services;

@@ -1,6 +1,8 @@
 using Notes.Application.Notes.Queries.GetNoteList;
+using Notes.Tests.Acceptance.Authorization;
 using Notes.Tests.Acceptance.Http;
 using Notes.Tests.Acceptance.Infrastructure;
+using Notes.WebApi.Models;
 using RestSharp;
 using TechTalk.SpecFlow.Assist;
 
@@ -13,11 +15,13 @@ public class GetNotesListStepDefinitions
     private string _url;
     private IRestResponseFactory _restResponseFactory;
     private IRestRequestFactory _restRequestFactory;
+    private string _token;
 
-    public GetNotesListStepDefinitions(IRestRequestFactory requestFactory, IRestResponseFactory restResponse)
+    public GetNotesListStepDefinitions(IRestRequestFactory requestFactory, IRestResponseFactory restResponse, IAuthorizationFactory authorizationFactory)
     {
         _restResponseFactory = restResponse;
         _restRequestFactory = requestFactory;
+        _token = authorizationFactory.Auth(new UserModel { UserName = "Solo2", Password = "Abc1234!" });
     }
 
     [Given(@"The URL for the list of notes is ""([^""]*)""")]
@@ -29,7 +33,7 @@ public class GetNotesListStepDefinitions
     [When(@"I send request to this URL")]
     public void WhenISendRequestToThisURL()
     {
-        RestRequest request = _restRequestFactory.createGetRequest(_url);
+        RestRequest request = _restRequestFactory.createGetRequest(_url, authToken: _token);
         NoteListVm deserializedResponse = _restResponseFactory
             .GetDeserializedResponse<NoteListVm>(request, new Uri(AppSettings.BaseApiUrl));
 
@@ -40,8 +44,7 @@ public class GetNotesListStepDefinitions
     public void ThenIShouldGetListOfNotesThatContainsFollowingData(Table table)
     {
         IEnumerable<Guid> expectedNoteIds = table.CreateSet<NoteLookupDto>().Select(note => note.Id);
-        IEnumerable<NoteLookupDto> actualNotesList = _notes.Where(n => expectedNoteIds.Contains(n.Id));
 
-        table.CompareToSet(actualNotesList);
+        table.CompareToSet(_notes);
     }
 }

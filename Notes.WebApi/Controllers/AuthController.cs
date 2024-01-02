@@ -26,7 +26,7 @@ public class AuthController : BaseController
         UserManager<IdentityUser> userManager) : base(userManager, signInManager) => _options = options.Value;
 
     [HttpPost("Register")]
-    public async Task<IActionResult> Register([FromBody] User user)
+    public async Task<IActionResult> Register([FromBody] UserModel user)
     {
         var data = new IdentityUser { UserName = user.UserName };
 
@@ -52,7 +52,8 @@ public class AuthController : BaseController
     }
 
     [HttpPost("SignIn")]
-    public async Task<IActionResult> SignIn(User user)
+    [Produces("text/plain")]
+    public async Task<IActionResult> SignIn(UserModel user)
     {
         var systemUser = await _userManager.FindByNameAsync(user.UserName);
 

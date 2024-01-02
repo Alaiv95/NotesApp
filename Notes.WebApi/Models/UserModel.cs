@@ -2,7 +2,7 @@
 
 namespace Notes.WebApi.Models;
 
-public class User
+public class UserModel
 {
     [Required]
     public string UserName { get; set; }

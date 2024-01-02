@@ -1,7 +1,11 @@
 using Notes.Application.Notes.Queries.GetNoteDetails;
+using Notes.Tests.Acceptance.Authorization;
 using Notes.Tests.Acceptance.Http;
 using Notes.Tests.Acceptance.Infrastructure;
+using Notes.WebApi.Models;
 using RestSharp;
+using System.Drawing;
+using System.Runtime.CompilerServices;
 using TechTalk.SpecFlow.Assist;
 
 namespace Notes.Tests.Acceptance.StepDefinitions;
@@ -13,11 +17,13 @@ public class GetNoteDetailStepDefinitions
     private string _url;
     private IRestResponseFactory _restResponseFactory;
     private IRestRequestFactory _restRequestFactory;
+    private string _token;
 
-    public GetNoteDetailStepDefinitions(IRestRequestFactory requestFactory, IRestResponseFactory restResponse)
+    public GetNoteDetailStepDefinitions(IRestRequestFactory requestFactory, IRestResponseFactory restResponse, IAuthorizationFactory authorizationFactory)
     {
         _restResponseFactory = restResponse;
         _restRequestFactory = requestFactory;
+        _token = authorizationFactory.Auth(new UserModel { UserName = "Solo2", Password = "Abc1234!" });
     }
 
     [Given(@"The URL for the notes detail is ""([^""]*)""")]
@@ -32,7 +38,7 @@ public class GetNoteDetailStepDefinitions
     {
         _url = _url.Replace("{id}", id);
 
-        RestRequest request = _restRequestFactory.createGetRequest(_url);
+        RestRequest request = _restRequestFactory.createGetRequest(_url, authToken: _token);
         NoteDetailsVm deserializedResponse = _restResponseFactory.GetDeserializedResponse<NoteDetailsVm>(request, new Uri(AppSettings.BaseApiUrl));
 
         _noteDetailsVm = deserializedResponse;
