@@ -13,6 +13,7 @@ using Notes.Application.Interfaces;
 using Notes.Persistence;
 using Notes.WebApi.Middlewares;
 using Notes.WebApi.Models;
+using Notes.WebApi.Services;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 using System.Text;
@@ -80,6 +81,8 @@ public class Startup
         services.AddSwaggerGen();
 
         services.AddApiVersioning();
+        services.AddSingleton<ICurrentUserService, CurrentUserService>();
+        services.AddHttpContextAccessor();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider)
