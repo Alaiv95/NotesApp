@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Notes.Tests.Acceptance.Features
+namespace Notes.Tests.Acceptance.Features.Positive
 {
     using TechTalk.SpecFlow;
     using System;
@@ -35,7 +35,7 @@ namespace Notes.Tests.Acceptance.Features
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "GetNotesList", "Get list of notes from /note endpoint", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/Positive", "GetNotesList", "Get list of notes from /note endpoint", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -108,20 +108,20 @@ this.ScenarioInitialize(scenarioInfo);
 #line 8
  testRunner.When("I send request to this URL", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-                TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table10 = new TechTalk.SpecFlow.Table(new string[] {
                             "id",
                             "title"});
-                table3.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "70c3e832-9b93-42bc-bfcc-354426ae0681",
                             "dasdasd"});
-                table3.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "59459251-7cea-4091-a7c2-6d80be198925",
                             "dasdasd"});
-                table3.AddRow(new string[] {
+                table10.AddRow(new string[] {
                             "027b540b-5145-4c95-93d0-eb38f380f097",
                             "test"});
 #line 9
- testRunner.Then("I should get list of notes that contains following data", ((string)(null)), table3, "Then ");
+ testRunner.Then("I should get list of notes that contains following data", ((string)(null)), table10, "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

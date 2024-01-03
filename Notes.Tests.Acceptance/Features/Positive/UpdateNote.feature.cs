@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Notes.Tests.Acceptance.Features
+namespace Notes.Tests.Acceptance.Features.Positive
 {
     using TechTalk.SpecFlow;
     using System;
@@ -35,7 +35,7 @@ namespace Notes.Tests.Acceptance.Features
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "UpdateNote", "Updating existing note data using /note/{id} endpoint", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/Positive", "UpdateNote", "Updating existing note data using /note/{id} endpoint", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -105,14 +105,14 @@ this.ScenarioInitialize(scenarioInfo);
 #line 7
  testRunner.Given("The URL to update the note is \"/note\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-                TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table11 = new TechTalk.SpecFlow.Table(new string[] {
                             "Title",
                             "Details"});
-                table4.AddRow(new string[] {
+                table11.AddRow(new string[] {
                             "newTitle",
                             "newDetails"});
 #line 8
- testRunner.When("I send request to this URL with existing note id and following values", ((string)(null)), table4, "When ");
+ testRunner.When("I send request to this URL with existing note id and following values", ((string)(null)), table11, "When ");
 #line hidden
 #line 11
  testRunner.Then("Updated note should contains new values", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");

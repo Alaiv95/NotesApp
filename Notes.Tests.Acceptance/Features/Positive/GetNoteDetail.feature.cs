@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Notes.Tests.Acceptance.Features
+namespace Notes.Tests.Acceptance.Features.Positive
 {
     using TechTalk.SpecFlow;
     using System;
@@ -35,7 +35,7 @@ namespace Notes.Tests.Acceptance.Features
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "GetNoteDetail", "Note detail info from /note/{id} endpoint", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/Positive", "GetNoteDetail", "Note detail info from /note/{id} endpoint", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -108,20 +108,20 @@ this.ScenarioInitialize(scenarioInfo);
 #line 8
  testRunner.When("I send request to this URL with this id \"70c3e832-9b93-42bc-bfcc-354426ae0681\"", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-                TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table9 = new TechTalk.SpecFlow.Table(new string[] {
                             "id",
                             "title",
                             "details",
                             "creationDate",
                             "editDate"});
-                table2.AddRow(new string[] {
+                table9.AddRow(new string[] {
                             "70c3e832-9b93-42bc-bfcc-354426ae0681",
                             "dasdasd",
                             "test details",
                             "2024-01-02T21:53:42.6357505",
                             ""});
 #line 9
- testRunner.Then("I should get following note detail", ((string)(null)), table2, "Then ");
+ testRunner.Then("I should get following note detail", ((string)(null)), table9, "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
